@@ -2,9 +2,6 @@
 const Discord = require("discord.js");
 const axios = require("axios");
 
-// This is your client. Some people call it `bot`, some people call it `self`, 
-// some might call it `cootchie`. Either way, when you see `client.something`, or `bot.something`,
-// this is what we're refering to. Your client.
 const client = new Discord.Client();
 
 // Here we load the config.json file that contains our token and our prefix values. 
@@ -42,12 +39,14 @@ client.on("message", async message => {
   // This event will run on every single message received, from any channel or DM.
   
   // It's good practice to ignore other bots. This also makes your bot ignore itself
-  // and not get into a spam loop (we call that "botception").
+  // and not get into a spam loop (we call that "botception").	
   if(message.author.bot) return;
   
   // Also good practice to ignore any message that does not start with our prefix, 
   // which is set in the configuration file.
   if(message.content.indexOf(config.prefix) !== 0) return;
+	
+	//PM-only bot. Remove this to enable the bot to reply to channels.
   if(message.guild !== null) return;
   
   // Here we separate our "command" name, and our "arguments" for the command. 
@@ -262,6 +261,7 @@ Volume (24h): $${response.data.data.quotes.USD.volume_24h.toFixed(2)}
   }
 
    if(command === "balance") {
+	   //troll account
       if(args[0]!=="NYwTVKqFwDGedRFEBDSTzYEN6z3cskRICH"){
         var wallet = args[0];
               axios.post("http://testnet-node-0001.nkn.org:30003",{"jsonrpc": "2.0","method": "getunspendoutput","params": { "address": wallet , "assetid": "4945ca009174097e6614d306b66e1f9cb1fce586cb857729be9e1c5cc04c9c02"},"id": "1"}).then(function(response){
@@ -360,8 +360,6 @@ _*Speculative balance calculated at 5:1 testnet:mainnet ratio, at current market
 	  //parse
 	  var msg = `Node Count: ${stdout}`;
    message.channel.send(msg);
-
-	      // And we get the bot to say the thing: 
 
      });
   }
@@ -531,7 +529,6 @@ ChordID: ${obj['result']['ChordID']}`;
     var msg = `Current Block: ${cblock['result']}`;
     message.channel.send(msg);
   }
-      // And we get the bot to say the thing: 
 
     });
 
